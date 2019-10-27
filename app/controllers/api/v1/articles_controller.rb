@@ -1,4 +1,4 @@
-class ArticlesController < ApplicationController
+class Api::V1::ArticlesController < ApplicationController
   before_action :set_article, only: [:show, :edit, :update, :destroy]
 
   # GET /articles
@@ -24,14 +24,12 @@ class ArticlesController < ApplicationController
   # POST /articles
   # POST /articles.json
   def create
-    @article = Article.new(article_params)
-
     respond_to do |format|
-      if @article.save
+      if @article.create(article_params)
         format.html { redirect_to @article, notice: 'Article was successfully created.' }
-        format.json { render :show, status: :created, location: @article }
+        format.json { render :show, status: :ok, location: @article }
       else
-        format.html { render :new }
+        format.html { render :edit }
         format.json { render json: @article.errors, status: :unprocessable_entity }
       end
     end
